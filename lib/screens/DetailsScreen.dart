@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../models/Movie.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final movie = ModalRoute.of(context)!.settings.arguments as Movie;
+
     return Scaffold(
       backgroundColor: const Color(0xFF020617),
       body: CustomScrollView(
@@ -19,10 +22,15 @@ class DetailsScreen extends StatelessWidget {
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.asset(
-                    'assets/images/angel.png',
-                    fit: BoxFit.cover,
-                  ),
+                  movie.posterPath != null
+                      ? Image.network(
+                          movie.posterPath!,
+                          fit: BoxFit.cover,
+                        )
+                      : Container(
+                          color: const Color(0xFF0F172A),
+                          child: const Icon(Icons.movie, size: 100, color: Colors.white24),
+                        ),
                   Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
@@ -51,7 +59,7 @@ class DetailsScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          'El Secreto de Ángel',
+                          movie.title,
                           style: GoogleFonts.poppins(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -76,7 +84,7 @@ class DetailsScreen extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              '8.5/10',
+                              movie.voteAverage.toStringAsFixed(1),
                               style: GoogleFonts.inter(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -99,7 +107,7 @@ class DetailsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'En un mundo donde los sueños pueden ser manipulados, un joven descubre que posee la habilidad de alterar la realidad a través de su propia imaginación. Su vida cambia por completo cuando una organización secreta lo recluta.\n\nPronto se da cuenta de que no es el único con este don, y que una guerra oculta se libra en el subconsciente colectivo de la humanidad. Tendrá que decidir en quién confiar antes de que sea demasiado tarde.\n\nA medida que sus poderes crecen, los límites entre la pesadilla y la realidad se desvanecen. Una emocionante aventura llena de giros inesperados, traiciones y el descubrimiento de su verdadero destino.',
+                    movie.overview.isEmpty ? 'Sinopsis no disponible' : movie.overview,
                     style: GoogleFonts.inter(
                       fontSize: 14,
                       color: const Color(0xFF94A3B8),
@@ -107,6 +115,7 @@ class DetailsScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 32),
+                  // TODO: Consumir endpoint de créditos de TMDB para el casting real
                   Text(
                     'Reparto Principal',
                     style: GoogleFonts.poppins(

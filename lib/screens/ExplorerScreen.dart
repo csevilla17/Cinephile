@@ -3,6 +3,9 @@ import '../config/theme/CinephileTheme.dart';
 import '../widgets/CustomBottomNav.dart';
 import '../widgets/CustomSliverAppBar.dart';
 import 'InfoScreen.dart';
+import 'package:provider/provider.dart';
+import '../providers/MovieProvider.dart';
+import '../models/Movie.dart';
 
 class ExplorerScreen extends StatefulWidget {
   const ExplorerScreen({super.key});
@@ -36,6 +39,14 @@ class _ExplorerScreenState extends State<ExplorerScreen> {
   }
 
   Widget _buildExploreView() {
+    final provider = context.watch<MovieProvider>();
+
+    if (provider.isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(color: Color(0xFFE11D48)),
+      );
+    }
+
     return CustomScrollView(
       slivers: [
         const CustomSliverAppBar(),
@@ -50,19 +61,30 @@ class _ExplorerScreenState extends State<ExplorerScreen> {
             ),
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
+                final movie = provider.popularMovies[index];
+
                 return GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/details');
+                    Navigator.pushNamed(context, '/details', arguments: movie);
                   },
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.cardBg,
                       borderRadius: BorderRadius.circular(12),
                     ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: movie.posterPath != null
+                          ? Image.network(
+                              movie.posterPath!,
+                              fit: BoxFit.cover,
+                            )
+                          : const Icon(Icons.movie, size: 50, color: Colors.white24),
+                    ),
                   ),
                 );
               },
-              childCount: 10,
+              childCount: provider.popularMovies.length,
             ),
           ),
         ),
