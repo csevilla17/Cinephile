@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'LoginScreen.dart';
 
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({super.key});
@@ -10,6 +11,7 @@ class SubscriptionScreen extends StatefulWidget {
 class _SubscriptionScreenState extends State<SubscriptionScreen> {
   bool isPlanSelection = false;
   String selectedPlan = 'Mensual';
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   Widget _buildFormView() {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+    const slateGray = Color(0xFF94A3B8);
 
     return Column(
       key: const ValueKey('FormView'),
@@ -76,11 +79,11 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 40),
-                _buildTextField('Nombre'),
+                _buildTextField('Nombre', Icons.person_outline),
                 const SizedBox(height: 20),
-                _buildTextField('Correo electrónico'),
+                _buildTextField('Correo electrónico', Icons.email_outlined),
                 const SizedBox(height: 20),
-                _buildTextField('Contraseña', isPassword: true),
+                _buildTextField('Contraseña', Icons.lock_outline, isPassword: true),
                 const SizedBox(height: 20),
               ],
             ),
@@ -110,23 +113,64 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           ),
         ),
         const SizedBox(height: 24),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '¿Ya tienes cuenta?',
+              style: textTheme.bodyMedium?.copyWith(
+                color: slateGray,
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
+              },
+              child: Text(
+                'Inicia sesión',
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
       ],
     );
   }
 
-  Widget _buildTextField(String label, {bool isPassword = false}) {
+  Widget _buildTextField(String label, IconData icon, {bool isPassword = false}) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     const slateGray = Color(0xFF94A3B8);
 
     return TextFormField(
-      obscureText: isPassword,
+      obscureText: isPassword ? _obscurePassword : false,
       style: textTheme.bodyMedium?.copyWith(color: const Color(0xFFF8FAFC)),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: textTheme.bodyMedium?.copyWith(color: slateGray),
         filled: true,
         fillColor: Colors.transparent,
+        prefixIcon: Icon(icon, color: slateGray),
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                  color: slateGray,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscurePassword = !_obscurePassword;
+                  });
+                },
+              )
+            : null,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: slateGray),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'SubscriptionScreen.dart';
+import 'LoginScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -124,7 +125,12 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                      );
+                    },
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: Colors.white.withOpacity(0.8), width: 1.5),
                       padding: const EdgeInsets.symmetric(vertical: 18),
