@@ -9,23 +9,41 @@ class MovieProvider extends ChangeNotifier {
 
   List<Movie> _popularMovies = [];
   bool _isLoading = true;
+  bool _isFetchingMore = false;
+  int _currentPage = 1;
 
   List<Movie> get popularMovies => _popularMovies;
   bool get isLoading => _isLoading;
+  bool get isFetchingMore => _isFetchingMore;
 
   Future<void> getPopularMovies() async {
-    _isLoading = true;
-    notifyListeners();
+    if (_isFetchingMore || (_isLoading && _popularMovies.isNotEmpty)) return;
+
+    if (_currentPage == 1) {
+      _isLoading = true;
+      notifyListeners();
+    } else {
+      _isFetchingMore = true;
+      notifyListeners();
+    }
 
     try {
-      final url = Uri.parse('$_baseUrl/movie/popular?api_key=$_apiKey&language=es-ES');
+      final url = Uri.parse('$_baseUrl/movie/popular?api_key=$_apiKey&language=es-ES&page=$_currentPage');
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> decodedData = json.decode(response.body);
         final List<dynamic> results = decodedData['results'];
         
-        _popularMovies = results.map((movieJson) => Movie.fromJson(movieJson)).toList();
+        final newMovies = results.map((movieJson) => Movie.fromJson(movieJson)).toList();
+
+        if (_currentPage == 1) {
+          _popularMovies = newMovies;
+        } else {
+          _popularMovies.addAll(newMovies);
+        }
+        
+        _currentPage++;
       } else {
         debugPrint('Error obteniendo películas: ${response.statusCode}');
       }
@@ -33,6 +51,7 @@ class MovieProvider extends ChangeNotifier {
       debugPrint('Excepción en getPopularMovies: $e');
     } finally {
       _isLoading = false;
+      _isFetchingMore = false;
       notifyListeners();
     }
   }

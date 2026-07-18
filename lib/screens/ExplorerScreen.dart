@@ -16,6 +16,23 @@ class ExplorerScreen extends StatefulWidget {
 
 class _ExplorerScreenState extends State<ExplorerScreen> {
   int _currentIndex = 0;
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+        context.read<MovieProvider>().getPopularMovies();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +65,7 @@ class _ExplorerScreenState extends State<ExplorerScreen> {
     }
 
     return CustomScrollView(
+      controller: _scrollController,
       slivers: [
         const CustomSliverAppBar(),
         SliverPadding(
@@ -88,6 +106,15 @@ class _ExplorerScreenState extends State<ExplorerScreen> {
             ),
           ),
         ),
+        if (provider.isFetchingMore)
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 24.0),
+              child: Center(
+                child: CircularProgressIndicator(color: Color(0xFFE11D48)),
+              ),
+            ),
+          ),
       ],
     );
   }
