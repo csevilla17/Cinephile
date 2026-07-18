@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import '../config/theme/CinephileTheme.dart';
 import '../widgets/CustomBottomNav.dart';
 import '../widgets/CustomSliverAppBar.dart';
+import 'InfoScreen.dart';
 
 class ExplorerScreen extends StatefulWidget {
   const ExplorerScreen({super.key});
@@ -19,7 +21,7 @@ class _ExplorerScreenState extends State<ExplorerScreen> {
         index: _currentIndex,
         children: [
           _buildExploreView(),
-          _buildProfileView(),
+          const InfoScreen(),
         ],
       ),
       bottomNavigationBar: CustomBottomNav(
@@ -50,7 +52,7 @@ class _ExplorerScreenState extends State<ExplorerScreen> {
               (BuildContext context, int index) {
                 return Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFF0F172A),
+                    color: AppColors.cardBg,
                     borderRadius: BorderRadius.circular(12),
                   ),
                 );
@@ -63,16 +65,5 @@ class _ExplorerScreenState extends State<ExplorerScreen> {
     );
   }
 
-  Widget _buildProfileView() {
-    final textTheme = Theme.of(context).textTheme;
-    
-    return Center(
-      child: Text(
-        'InfoScreen Placeholder',
-        style: textTheme.bodyLarge?.copyWith(
-          color: const Color(0xFFF8FAFC),
-        ),
-      ),
-    );
-  }
+
 }

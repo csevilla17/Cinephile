@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/theme/CinephileTheme.dart';
 
 class CustomBottomNav extends StatelessWidget {
   final int currentIndex;
@@ -13,12 +14,11 @@ class CustomBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    const slateGray = Color(0xFF94A3B8);
 
     return BottomNavigationBar(
       backgroundColor: colorScheme.surface,
       selectedItemColor: colorScheme.primary,
-      unselectedItemColor: slateGray,
+      unselectedItemColor: AppColors.textSecondary,
       showUnselectedLabels: false,
       currentIndex: currentIndex,
       onTap: onTap,

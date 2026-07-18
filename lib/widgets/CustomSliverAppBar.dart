@@ -11,10 +11,7 @@ class CustomSliverAppBar extends StatelessWidget {
     return SliverAppBar(
       title: Text(
         'Explorar',
-        style: textTheme.headlineMedium?.copyWith(
-          fontWeight: FontWeight.bold,
-          color: const Color(0xFFF8FAFC),
-        ),
+        style: textTheme.headlineMedium,
       ),
       floating: true,
       backgroundColor: colorScheme.surface,
