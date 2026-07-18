@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../widgets/CustomBottomNav.dart';
+import '../widgets/CustomSliverAppBar.dart';
 
 class ExplorerScreen extends StatefulWidget {
   const ExplorerScreen({super.key});
@@ -12,9 +14,6 @@ class _ExplorerScreenState extends State<ExplorerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    const slateGray = Color(0xFF94A3B8);
-
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
@@ -23,49 +22,21 @@ class _ExplorerScreenState extends State<ExplorerScreen> {
           _buildProfileView(),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: colorScheme.surface,
-        selectedItemColor: colorScheme.primary,
-        unselectedItemColor: slateGray,
-        showUnselectedLabels: false,
+      bottomNavigationBar: CustomBottomNav(
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore_outlined),
-            label: 'Explorar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Perfil',
-          ),
-        ],
       ),
     );
   }
 
   Widget _buildExploreView() {
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
-
     return CustomScrollView(
       slivers: [
-        SliverAppBar(
-          title: Text(
-            'Explorar',
-            style: textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          floating: true,
-          backgroundColor: colorScheme.surface,
-          elevation: 0,
-        ),
+        const CustomSliverAppBar(),
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           sliver: SliverGrid(
