@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../models/Movie.dart';
+import '../models/Actor.dart';
+import '../providers/MovieProvider.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key});
@@ -115,7 +118,6 @@ class DetailsScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  // TODO: Consumir endpoint de créditos de TMDB para el casting real
                   Text(
                     'Reparto Principal',
                     style: GoogleFonts.poppins(
@@ -125,52 +127,60 @@ class DetailsScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  SizedBox(
-                    height: 120,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        final mockActors = [
-                          'Leonardo DiCaprio',
-                          'Zendaya',
-                          'Timothée Chalamet',
-                          'Florence Pugh',
-                          'Tom Hardy'
-                        ];
-                        
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: Column(
-                            children: [
-                              const CircleAvatar(
-                                radius: 35,
-                                backgroundColor: Color(0xFF0F172A),
-                                child: Icon(
-                                  Icons.person,
-                                  size: 40,
-                                  color: Color(0xFF94A3B8),
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              SizedBox(
-                                width: 70,
-                                child: Text(
-                                  mockActors[index],
-                                  style: GoogleFonts.inter(
-                                    fontSize: 12,
-                                    color: const Color(0xFFF8FAFC),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
+                  FutureBuilder<List<Actor>>(
+                    future: Provider.of<MovieProvider>(context, listen: false).getMovieCast(movie.id),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox(
+                          height: 120,
+                          child: Center(child: CircularProgressIndicator(color: Color(0xFFE11D48))),
                         );
-                      },
-                    ),
+                      }
+                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return Text('Reparto no disponible', style: GoogleFonts.inter(color: const Color(0xFF94A3B8)));
+                      }
+
+                      final cast = snapshot.data!;
+
+                      return SizedBox(
+                        height: 120,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: cast.length > 15 ? 15 : cast.length,
+                          itemBuilder: (context, index) {
+                            final actor = cast[index];
+
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 35,
+                                    backgroundColor: const Color(0xFF0F172A),
+                                    backgroundImage: actor.profilePath != null ? NetworkImage(actor.profilePath!) : null,
+                                    child: actor.profilePath == null ? const Icon(Icons.person, size: 40, color: const Color(0xFF94A3B8)) : null,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  SizedBox(
+                                    width: 70,
+                                    child: Text(
+                                      actor.name,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        color: const Color(0xFFF8FAFC),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 48),
                 ],

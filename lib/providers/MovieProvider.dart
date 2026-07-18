@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../models/Movie.dart';
+import '../models/Actor.dart';
 
 class MovieProvider extends ChangeNotifier {
   final String _apiKey = '96252f8952f61ec089e42528d1663d88';
@@ -53,6 +54,26 @@ class MovieProvider extends ChangeNotifier {
       _isLoading = false;
       _isFetchingMore = false;
       notifyListeners();
+    }
+  }
+
+  Future<List<Actor>> getMovieCast(int movieId) async {
+    try {
+      final url = Uri.parse('$_baseUrl/movie/$movieId/credits?api_key=$_apiKey&language=es-ES');
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> decodedData = json.decode(response.body);
+        final List<dynamic> castList = decodedData['cast'];
+        
+        return castList.map((actorJson) => Actor.fromJson(actorJson)).toList();
+      } else {
+        debugPrint('Error obteniendo reparto: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      debugPrint('Excepción en getMovieCast: $e');
+      return [];
     }
   }
 }
