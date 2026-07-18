@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'SubscriptionScreen.dart';
 import 'LoginScreen.dart';
+import 'InfoScreenDev.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -40,29 +41,47 @@ class HomeScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
-                    Icons.movie_outlined,
-                    color: colorScheme.primary,
-                    size: 28,
-                  ),
-                  const SizedBox(width: 8),
-                  Text.rich(
-                    TextSpan(
-                      text: 'Cinephile',
-                      style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-                      children: [
+                  const SizedBox(width: 48),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.movie_outlined,
+                        color: colorScheme.primary,
+                        size: 28,
+                      ),
+                      const SizedBox(width: 8),
+                      Text.rich(
                         TextSpan(
-                          text: '.',
-                          style: TextStyle(
-                            color: colorScheme.primary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 32,
-                          ),
+                          text: 'Cinephile',
+                          style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                          children: [
+                            TextSpan(
+                              text: '.',
+                              style: TextStyle(
+                                color: colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 32,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.info_outline_rounded,
+                      color: textTheme.titleLarge?.color,
                     ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const InfoScreenDev()),
+                      );
+                    },
                   ),
                 ],
               ),
