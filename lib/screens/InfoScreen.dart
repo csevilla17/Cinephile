@@ -99,9 +99,9 @@ class InfoScreen extends StatelessWidget {
             const SizedBox(height: 64),
             OutlinedButton.icon(
               onPressed: () {
-                Navigator.pushAndRemoveUntil(
+                Navigator.pushNamedAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                  '/home',
                   (route) => false,
                 );
               },

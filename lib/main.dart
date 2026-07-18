@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'config/routes/AppRoutes.dart';
 import 'config/theme/CinephileTheme.dart';
-import 'screens/HomeScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
       title: 'Cinephile',
       debugShowCheckedModeBanner: false,
       theme: CinephileTheme.darkTheme,
-      home: const HomeScreen(),
+      initialRoute: AppRoutes.initialRoute,
+      routes: AppRoutes.routes,
     );
   }
 }

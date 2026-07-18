@@ -77,10 +77,7 @@ class HomeScreen extends StatelessWidget {
                       color: textTheme.titleLarge?.color,
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const InfoScreenDev()),
-                      );
+                      Navigator.pushNamed(context, '/info-dev');
                     },
                   ),
                 ],
@@ -125,10 +122,7 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 40),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const SubscriptionScreen()),
-                      );
+                      Navigator.pushNamed(context, '/subscription');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: colorScheme.primary,
@@ -151,10 +145,7 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const LoginScreen()),
-                      );
+                      Navigator.pushNamed(context, '/login');
                     },
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(color: Colors.white.withOpacity(0.8), width: 1.5),

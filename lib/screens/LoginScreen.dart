@@ -147,9 +147,9 @@ class _LoginScreenState extends State<LoginScreen> {
               
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushAndRemoveUntil(
+                  Navigator.pushNamedAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => const ExplorerScreen()),
+                    '/explorer',
                     (route) => false,
                   );
                 },
@@ -184,10 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const SubscriptionScreen()),
-                      );
+                      Navigator.pushReplacementNamed(context, '/subscription');
                     },
                     child: Text(
                       'Suscríbete',

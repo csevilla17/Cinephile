@@ -136,10 +136,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
-                );
+                Navigator.pushReplacementNamed(context, '/login');
               },
               child: Text(
                 'Inicia sesión',
@@ -236,9 +233,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         ),
         ElevatedButton(
           onPressed: () {
-            Navigator.pushAndRemoveUntil(
+            Navigator.pushNamedAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const ExplorerScreen()),
+              '/explorer',
               (route) => false,
             );
           },
