@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'LoginScreen.dart';
+import 'ExplorerScreen.dart';
 
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({super.key});
@@ -223,7 +224,13 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           ),
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const ExplorerScreen()),
+              (route) => false,
+            );
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: colorScheme.primary,
             foregroundColor: Colors.white,
