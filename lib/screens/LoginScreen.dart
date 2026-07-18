@@ -24,21 +24,32 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 0,
         centerTitle: true,
         iconTheme: const IconThemeData(color: Color(0xFFF8FAFC)), 
-        title: Text.rich(
-          TextSpan(
-            text: 'Cinephile',
-            style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-            children: [
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.movie_outlined,
+              color: colorScheme.primary,
+              size: 28,
+            ),
+            const SizedBox(width: 8),
+            Text.rich(
               TextSpan(
-                text: '.',
-                style: TextStyle(
-                  color: colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 32,
-                ),
+                text: 'Cinephile',
+                style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                children: [
+                  TextSpan(
+                    text: '.',
+                    style: TextStyle(
+                      color: colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 32,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: SafeArea(
