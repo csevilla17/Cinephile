@@ -50,10 +50,15 @@ class _ExplorerScreenState extends State<ExplorerScreen> {
             ),
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.cardBg,
-                    borderRadius: BorderRadius.circular(12),
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/details');
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.cardBg,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 );
               },

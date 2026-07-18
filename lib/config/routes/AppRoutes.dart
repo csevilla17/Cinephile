@@ -5,6 +5,7 @@ import '../../screens/SubscriptionScreen.dart';
 import '../../screens/ExplorerScreen.dart';
 import '../../screens/InfoScreen.dart';
 import '../../screens/InfoScreenDev.dart';
+import '../../screens/DetailsScreen.dart';
 
 abstract class AppRoutes {
   static const initialRoute = '/home';
@@ -16,5 +17,6 @@ abstract class AppRoutes {
         '/explorer': (context) => const ExplorerScreen(),
         '/info': (context) => const InfoScreen(),
         '/info-dev': (context) => const InfoScreenDev(),
+        '/details': (context) => const DetailsScreen(),
       };
 }
